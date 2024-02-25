@@ -17,6 +17,11 @@ d3.json(url).then(function (data) {
     if (debug) { console.log(data); }
 
     var itemIdx = (typeof itemIdx === 'undefined') ? 0 : itemIdx;
+
+    //Create DDL from names list - working code option 1
+    let selectList = d3.select('select');
+    data.names.forEach(nameNumber => selectList.append('option').attr('value', nameNumber).text(nameNumber));
+
     if (debug) { console.log(itemIdx) }
 
     // Create a bar chart
@@ -99,5 +104,31 @@ d3.json(url).then(function (data) {
     };
     bubbleChart(itemIdx);
 
+    //The dropdown select box - changes the dashboard based on the user selection
+    let dropdown = d3.select("#selDataset");
+    dropdown.on("change", function () {
+        userChoice = this.value;
+        if (debug) { console.log(userChoice); }
+        const userChoiceIndex = (element) => element == userChoice;
+        if (debug) { console.log(userChoiceIndex); }
+        itemIdx = data.names.findIndex(userChoiceIndex);
+        if (debug) { console.log(itemIdx); }
+
+        // display the new dashboard
+        d3.select('#sample-metadata').html(""); dInfo(itemIdx);
+        barChart(itemIdx);
+        bubbleChart(itemIdx);
+    });
+
+    // Demographic Information Graphic
+    function dInfo(itemIdx) {
+        let demoInfo = data.metadata[itemIdx];
+        if (debug) { console.log(demoInfo); }
+        Object.entries(demoInfo).forEach(([key, value]) => {
+            let addDemoData = d3.select('#sample-metadata').append('li');
+            addDemoData.text(`${key}:  ${value}`)
+        })
+    };
+    dInfo(itemIdx);
 
 });
