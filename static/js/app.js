@@ -118,6 +118,7 @@ d3.json(url).then(function (data) {
         d3.select('#sample-metadata').html(""); dInfo(itemIdx);
         barChart(itemIdx);
         bubbleChart(itemIdx);
+        gaugeChart(itemIdx)
     });
 
     // Demographic Information Graphic
@@ -130,5 +131,54 @@ d3.json(url).then(function (data) {
         })
     };
     dInfo(itemIdx);
+
+    // Bonus
+
+    // Gauge Chart visual
+    // Plots the average number of times that the default or selected Test Subject washed their belly button per week (wfreq)
+    function gaugeChart(itemIdx) {
+        let gaugechartinfo = data.metadata[itemIdx].wfreq;
+        if (debug) { console.log(gaugechartinfo); }
+
+        let data3 = [
+            {
+                type: "indicator",
+                mode: "gauge+number",
+                value: gaugechartinfo,
+                title: { text: "Belly Button Washing Frequency<br><sup>Scrubs per Week</sup>", font: { size: 22 } },
+                gauge: {
+                    axis: { range: [null, 9], tick0: 0, dticks: 8, tickwidth: 1, tickcolor: "darkblue" },
+                    bar: { color: "darkblue" },
+                    bgcolor: "white",
+                    borderwidth: 2,
+                    bordercolor: "gray",
+                    steps: [
+                        // color scheme 2: pairs with Plasma (only one color scheme should be active at a time)
+                        { range: [0, 1], color: "#f0f921" },
+                        { range: [1, 2], color: "#fdca26" },
+                        { range: [2, 3], color: "#fb9f3a" },
+                        { range: [3, 4], color: "#ed7953" },
+                        { range: [4, 5], color: "#d8576b" },
+                        { range: [5, 6], color: "#bd3786" },
+                        { range: [6, 7], color: "#9c179e" },
+                        { range: [7, 8], color: "#7201a8" },
+                        { range: [8, 9], color: "#46039f" },
+                        //{ range: [9, 10], color: '#0d0887'  }//max washing = 9, don't need this one
+                    ],
+                }
+            }
+        ];
+
+        let layout3 = {
+            width: 500,
+            height: 400,
+            margin: { t: 100, r: 25, l: 25, b: 25 },
+            paper_bgcolor: "aliceblue",
+            font: { color: "darkblue", family: "Arial" }
+        };
+
+        Plotly.newPlot('gauge', data3, layout3)
+    };
+    gaugeChart(itemIdx)
 
 });
