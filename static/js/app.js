@@ -1,4 +1,4 @@
-const debug = true;
+const debug = false;
 const bgColour = 'RoyalBlue';
 const fontColour = 'white';
 
@@ -173,8 +173,8 @@ d3.json(url).then(function (data) {
             width: 500,
             height: 400,
             margin: { t: 100, r: 25, l: 25, b: 25 },
-            paper_bgcolor: "aliceblue",
-            font: { color: "darkblue", family: "Arial" }
+            paper_bgcolor: bgColour,
+            font: { color: fontColour, family: "Arial" }
         };
 
         Plotly.newPlot('gauge', data3, layout3)
