@@ -4,19 +4,18 @@ const fontColour = 'white';
 
 document.body.style.backgroundColor = bgColour;
 
-
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 // Promise Pending
 const dataDownload = d3.json(url);
-if (debug) { console.log("Data: ", dataDownload); }
+if (debug) { console.log("Data: ", dataDownload); } // downloaded data from the web
 
 // Fetch the JSON data and console log it - all subsequent code within this function
 
 d3.json(url).then(function (data) {
     if (debug) { console.log(data); }
 
-    var itemIdx = (typeof itemIdx === 'undefined') ? 0 : itemIdx;
+    var itemIdx = (typeof itemIdx === 'undefined') ? 0 : itemIdx; // current 
 
     //Create DDL from names list - working code option 1
     let selectList = d3.select('select');
@@ -68,7 +67,6 @@ d3.json(url).then(function (data) {
     // Plots all of the Operational Taxonomic Units (otu_id) on the x axis and by marker color
     // and count(sample_value) on the y axis and by marker size
     // additional hover info shows the types of bacteria found (otu_labels) for the default or selected Test Subject ID
-
     function bubbleChart(itemIdx) {
         let bubblex = [data.samples[itemIdx].otu_ids];
         let bubbley = [data.samples[itemIdx].sample_values];
@@ -163,7 +161,6 @@ d3.json(url).then(function (data) {
                         { range: [6, 7], color: "#9c179e" },
                         { range: [7, 8], color: "#7201a8" },
                         { range: [8, 9], color: "#46039f" },
-                        //{ range: [9, 10], color: '#0d0887'  }//max washing = 9, don't need this one
                     ],
                 }
             }
